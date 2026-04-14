@@ -39,6 +39,6 @@ typedef struct {
 int fileOpen(char *fileName, FILE **fp);
 int redisHget(redisContext *c, char *key, char *field, stdb_field *da);
 int redisHgetBuf(redisContext *c, field_info *info, char *key, char *field, int count, char *buffer);
-int structBuffer(field_info *fieldInfo);
+int structBuffer(struct_info *structInfo);
 void getProfile(char *section, redis_info *info);
 
