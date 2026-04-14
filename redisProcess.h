@@ -3,12 +3,15 @@
 #include <string.h>
 #include <stddef.h>
 #include <hiredis/hiredis.h>
+#include <hiredis/hiredis_ssl.h>
+#include <time.h>
+
 typedef struct {
     char flag[2];        
-    char oa_addr[20];
-    char da_addr[20];
+    char oa_addr[32];
+    char da_addr[32];
    // char QID[10];
-    char drtime[20];
+    char drtime[32];
 } stdb_field;
 
 typedef struct {
@@ -17,7 +20,25 @@ typedef struct {
     int length;
     
 } field_info;
+ 
+typedef struct {
+    char oa_addr[32];
+    char da_addr[32];
+    int qid;
+    long start_time;
+    long end_time;
+} search_info;
+
+typedef struct {
+    char redis_ID[256];
+    char redis_PASS[256];
+    char redis_CRT[256];
+} redis_info;
+
 
 int fileOpen(char *fileName, FILE **fp);
 int redisHget(redisContext *c, char *key, char *field, stdb_field *da);
-int redisHgetBuf(redisContext *c, char *key, char *field, char *buffer, int *out_len);
+int redisHgetBuf(redisContext *c, field_info *info, char *key, char *field, int count, char *buffer);
+int structBuffer(field_info *fieldInfo);
+int getProfile(redis_info *info);
+
