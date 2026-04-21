@@ -1,5 +1,5 @@
-flag : A
-oa_addr : 01012341234
-da_addr : 01012121212
-qid : {
-drtime : ®Z=
+# field value
+flag B
+oa_addr 03211112222
+da_add 03133334444
+qid 999

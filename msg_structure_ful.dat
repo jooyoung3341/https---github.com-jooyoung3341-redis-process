@@ -1,0 +1,76 @@
+char flag 1
+char c_stat 1
+char dummy 2
+int msgid 4
+int cp_serial 4
+int smc_serial 4
+tin tid 4
+char oa_addr 32
+char da_addr 32
+char callback 32
+char special_no 12
+char cdr_spc_addr 32
+char text 160
+time_buf dr_time
+time_buf ds_time
+time_buf ar_time
+time_buf as_time
+time_buf dd_time
+time_buf ss_time 
+char msg_class 1
+char adjust_flag 1
+char cdr_flag 1
+char report_flag 1
+char lgt_flag 1
+char book_flag 1
+char binary_flag 1
+char ktf_roaming 1
+char m_result 1
+int m_code 4
+int cdr_type 4
+int cdr_money 4
+char destcode 12
+char call_npi 4
+char mscid 4
+char baseid 4
+char chargeInfo 1
+char messageState 8
+char errorCode 4
+char number_of_messages 1
+int qid 4
+char lms_field 3
+char cp_code 16
+char hall_flag 1
+char soc_code 10
+int out_qid 4
+int mgw_stat 4
+char mgw_immediate_charge_result 5
+int submit_retry_cnt 4
+int msg_repeat_cnt 4
+time_buf ms_time
+time_buf mr_time
+time_buf cs_time 
+time_buf cr_time 
+int mgw_bill_type 4
+char bill_agent 1
+int cas_result 4
+char receiver_type 1
+int hp_errorCode 4
+char spam_flag 1
+char br_id 25
+char oa_debug_name 20
+char da_debug_name 20
+char filename 36
+int nps_cnt 4
+int np_result 4
+time_buf nps_time 
+time_buf npr_time 
+char fwd_cnt 1
+char fwd_da_addr 32
+char fwd_contents_flag 1
+char utrancellid 20
+char cp_name 21
+int a_index 4
+char report_id 64
+char args_nickname 30
+char aa_FAIL 1

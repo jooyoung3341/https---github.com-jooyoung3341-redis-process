@@ -7,11 +7,10 @@
 #include <time.h>
 
 typedef struct {
-    char flag[2];
+    char flag;
     char oa_addr[32];
     char da_addr[32];
     int qid;
-    long drtime;
 } stdb_field;
 
 typedef struct {
@@ -35,10 +34,23 @@ typedef struct {
     char redis_CRT[256];
 } redis_info;
 
+typedef struct {
+    char name[32];
+    char value[128];
+} update_info;
+
+typedef struct {
+    char name[32];
+    int length;
+    char type[10];
+    char function[2];
+    char value[128];
+} migration_info;
 
 int fileOpen(char *fileName, FILE **fp);
 int redisHget(redisContext *c, char *key, char *field, stdb_field *da);
-int redisHgetBuf(redisContext *c, field_info *info, char *key, char *field, int count, char *buffer);
+int redisHgetBuf(redisContext *c, struct_info *info, char *key, int count, char *buffer);
 int structBuffer(struct_info *structInfo);
 void getProfile(char *section, redis_info *info);
-
+int redisHset(redisContext *c, char *key, char *fieldBuffer, int dataLen);
+int getAlign(char *type);

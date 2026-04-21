@@ -1,0 +1,8 @@
+N flag 
+D oa_addr 
+D da_addr 
+I char aa_addr 32 01000001111
+N int qid 
+N dr_time.tv_sec
+D time_buf dr_time.tv_usec 
+I time_buf long dr_time.tv_sec 4 60
