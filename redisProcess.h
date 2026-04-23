@@ -165,9 +165,9 @@ typedef struct {
 } redis_data;
 
 typedef struct{
-	struct_PATH[256];
-	struct_FILENAME[32];
-} struct_data
+	char struct_PATH[256];
+	char struct_FILENAME[32];
+} struct_data;
 
 typedef struct {
     char name[32];
@@ -189,7 +189,7 @@ int redisHget(redisContext *c, char *key, char *field, stdb_field *da);
 int redisHgetBuf(redisContext *c, struct_info *info, char *key, int count, char *buffer);
 int structBuffer(struct_info *structInfo);
 int editStructBuffer(migration_info *editStructInfo);
-void getProfile(char *section, redis_info *info);
+void getProfile(char *section, redis_data *info);
 int redisHset(redisContext *c, char *key, char *fieldBuffer, int dataLen);
 int getAlign(char *type);
 char findOldField(struct_info *structInfo, int structCount, char *fieldName);

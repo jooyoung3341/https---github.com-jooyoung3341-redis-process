@@ -15,7 +15,7 @@ int main(int argc, char **argv) {
     redis_data redisData;
     struct_data structData;
     getProfile("REDIS", &redisData);
-    getProfile("STRUCT", &structData);
+    //getProfile("STRUCT", &structData);
 
     if(redisData.redis_ID == NULL || redisData.redis_PASS == NULL || redisData.redis_CRT == NULL){
         printf("@@@ ERROR cfg redis info NULL \n");
@@ -23,10 +23,10 @@ int main(int argc, char **argv) {
         exit(0);
     }
 
-    if(structData.struct_PATH == NULL || structData.struct_FILENAME == NULL){
+    /*if(structData.struct_PATH == NULL || structData.struct_FILENAME == NULL){
         printf("@@@ ERROR cfg struct info NULL \n");
         exit(0);
-    }
+    }*/
 
     // 레디스 로컬 connect 
     ctx = redisConnect("127.0.0.1", 6379);
@@ -66,7 +66,7 @@ int main(int argc, char **argv) {
 
 
 
-    reply = (redisReply *) redisCommand(ctx, "AUTH %s %s", redis_info.redis_ID, redis_info.redis_PASS);
+    reply = (redisReply *) redisCommand(ctx, "AUTH %s %s", redisData.redis_ID, redisData.redis_PASS);
     if(reply == NULL || ctx->err){
         //오류로그
         printf("@@@ ERROR redis AUTH command fail");
@@ -82,6 +82,8 @@ int main(int argc, char **argv) {
     char *processName = argv[1];
     strcpy(fileName, argv[2]);
     printf("# processName : %s\n ", processName);
+
+
 
     if(strcmp(processName, "date") == 0){
         char date[100];
@@ -212,7 +214,20 @@ int main(int argc, char **argv) {
         exit(0);
     }*/
     //========== 레디스 읽기 test end ===========
-    
+    if(strcmp(processName, "redisSet") == 0){
+        printf("redisSet in \n");
+        int offset = 0;
+        int count = 0;
+        
+        char type[32], name[32];
+        int length;
+        struct_info structInfo[200];
+        int structResult = structBuffer(structInfo);
+
+        char buffer[1028];
+        memset(buffer, 0, sizeof(buffer));
+        int total = 0;
+    }
     //========== 버퍼로 레디스 삽입 start ====================
     if(strcmp(processName, "test_bufInsert") == 0){
         printf("test_bufInsert\n");
@@ -224,11 +239,34 @@ int main(int argc, char **argv) {
         struct_info bufInfo[100];
         int structResult = structBuffer(bufInfo);
 
+        for (int i = 0; i < structResult; i++)
+        {
+            printf("struct_info.name[%s] struct_info.type[%s] struct_info.offset[%d] dtruct_info.length[%d] \n",
+                bufInfo[i].name, bufInfo[i].type, bufInfo[i].offset, bufInfo[i].length);
+            
+        }
+        exit(0);
         char buffer[1028];
         memset(buffer, 0, sizeof(buffer));
         int total = 0;
         for (int i = 0; i < structResult; i++){
-            if(strcmp(bufInfo[i].name, "flag") == 0){
+            if(strcmp(bufInfo[i].type, "char") == 0){
+                if(bufInfo[i].length > 1){
+                    memcpy(buffer+bufInfo[i].offset, "01011112222", bufInfo[i].length);
+                }else{
+                    memcpy(buffer+bufInfo[i].offset, "Y", bufInfo[i].length);
+                    //1이면 Y
+                }
+            }else if(strcmp(bufInfo[i].type, "int") == 0){
+                int val = 111;
+                memcpy(buffer+bufInfo[i].offset, &val, bufInfo[i].length);
+            }else if(strcmp(bufInfo[i].type, "long") == 0){
+                long val = 333;
+                memcpy(buffer+bufInfo[i].offset, &val, bufInfo[i].length);
+            }else if(strcmp(bufInfo[i]. type, "time_buf") == 0){
+
+            }
+           /* if(strcmp(bufInfo[i].name, "flag") == 0){
                 memcpy(buffer+bufInfo[i].offset, "A", bufInfo[i].length);
                 printf("[%s] char = '%c'\n", bufInfo[i].name, buffer[bufInfo[i].offset]);
             }else if(strcmp(bufInfo[i].name, "oa_addr") == 0 || strcmp(bufInfo[i].name, "da_addr") == 0){
@@ -252,7 +290,7 @@ int main(int argc, char **argv) {
                     memcpy(&readSubVal, buffer+bufInfo[i].offset, bufInfo[i].length);
                     printf("[%s] int = %d\n", bufInfo[i].name, readSubVal);
                 }
-            }
+            }*/
             total = bufInfo[structResult - 1].offset + bufInfo[structResult - 1].length;
         }
         // 전체 버퍼 hex 덤프
@@ -1111,7 +1149,7 @@ time_t convertDateTime(char *time){
             lt->tm_min);
 }*/
 
-void getProfile(char *section, redis_info *info){
+void getProfile(char *section, redis_data *info){
     FILE *fp_profile;
     int file_open = fileOpen("redisProcess.cfg", &fp_profile);
     if(file_open < 0){
@@ -1160,11 +1198,11 @@ void getProfile(char *section, redis_info *info){
                 strncpy(info->redis_CRT, value, sizeof(info->redis_CRT)-1);
             }
         }else if(strcmp(section, "STRUCT") == 0){
-            if(strcmp(key, "struct_PATH") == 0){
+            /*if(strcmp(key, "struct_PATH") == 0){
                 strncpy(info->struct_PATH, value, sizeof(info->struct_PATH)-1);
             }else if(strcmp(key, "struct_FILENAME") == 0){
                 strncpy(info->struct_FILENAME, value, sizeof(info->struct_FILENAME)-1);
-            }
+            }*/
         }
     }
     fclose(fp_profile);
