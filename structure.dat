@@ -1,0 +1,6 @@
+N int msgid 4
+N int cp_serial 4
+N int smc_serial 4
+N char oa_addr 32
+N char da_addr 32
+N char cb 32

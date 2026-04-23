@@ -1,0 +1,5 @@
+char flag 1
+char oa_addr 32
+char da_addr 32
+time_buf dr_time
+int qid 4

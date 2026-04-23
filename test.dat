@@ -1,5 +1,7 @@
-testin123123
+testin_
 flag|A
 oa_addr|01012341234
 da_addr|01012121212
+tv_sec|123123123
+tv_usec|111
 qid|123
